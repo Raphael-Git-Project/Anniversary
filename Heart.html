@@ -1,0 +1,132 @@
+<!DOCTYPE html> <!--a declaration that i am writing a webpage in HTMl -->
+<html lang="en"> <!-- html explains the start of the whole webpage and lang is language and en is english-->
+<head> 
+  <meta charset="UTF-8" />
+  <!-- it is impossible to create the heart shape without this prompt--> <!-- this is tell ing the browser to use UTF-8 which is a character system that supports almost all symbols  and languages-->
+  <title>Happy 11 Months 💙</title> <!--pretty obvious its a title-->
+  <style> /* this is the start of the css section. also why i have to change to a different way of makinga comment*/
+    html, body {
+      margin: 0;
+      padding: 0;
+      overflow: hidden;
+      background: black;
+    } /* margin: 0; removes the default space around the page
+        padding: 0; removes inside spacing
+        overflow: hidden; makes sure nothing scrolls
+        background: black; makes the entire background black*/
+
+    h1 {
+      position: absolute;
+      top: 20px;
+      width: 100%;
+      text-align: center;
+      color: 		#99ccff;
+      font-family: 'Arial', sans-serif;
+      font-size: 2em;
+      z-index: 1;
+    }
+
+    .message {
+      position: absolute;
+      bottom: 30px;
+      width: 100%;
+      text-align: center;
+      color: #66ccff;
+      font-size: 1.2em;
+      font-family: 'Courier New', Courier, monospace;
+    }
+  </style>
+</head>
+<body>
+  <h1>Happy 11 Months Anniversary, Mi amor💙</h1>
+  <div class="message">I fell in love with you like I would fall asleep: slowly and then all at once.</div>
+
+  <!-- p5.js CDN -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/1.6.0/p5.min.js"></script>
+
+  <script>
+    let particles = [];
+
+    function setup() {
+  createCanvas(windowWidth, windowHeight);
+  background(0);
+
+  let totalParticles = 5000;
+  for (let i = 0; i < totalParticles; i++) {
+    let p = generateRandomHeartPoint();
+    let scale = 16 * 10;
+    p.x = p.x * scale + width / 2 ;
+    p.y = -p.y * scale + height / 2 ;  // Push down slightly
+    particles.push(new Particle(p.x, p.y));
+  }
+
+  // 💡 This ensures correct placement on load
+  windowResized();
+}
+
+    function draw() {
+      background(0, 25);
+      for (let p of particles) {
+        p.update();
+        p.show();
+      }
+    }
+
+    // Generate a random point INSIDE the heart using rejection sampling
+    function generateRandomHeartPoint() {
+      while (true) {
+        let x = random(-1.5, 1.5);
+        let y = random(-1.5, 1.5);
+        let a = x;
+        let b = y;
+        let equation = pow(a * a + b * b - 1, 3) - a * a * b * b * b;
+        if (equation <= 0) {
+          return { x: x, y: y };
+        }
+      }
+    }
+
+    class Particle {
+      constructor(x, y) {
+        this.baseX = x;
+        this.baseY = y;
+        this.x = x;
+        this.y = y;
+        this.r = random(1, 2.5);
+        this.color = color(50, 150, 255);
+      }
+
+      update() {
+        let dx = this.x - mouseX;
+        let dy = this.y - mouseY;
+        let d = sqrt(dx * dx + dy * dy);
+        if (d < 100) {
+          this.x += dx / d;
+          this.y += dy / d;
+        } else {
+          this.x += (this.baseX - this.x) * 0.04;
+          this.y += (this.baseY - this.y) * 0.04;
+        }
+      }
+
+      show() {
+        noStroke();
+        fill(this.color);
+        ellipse(this.x, this.y, this.r);
+      }
+    }
+function windowResized() {
+  resizeCanvas(windowWidth, windowHeight);
+  particles = []; // clear old particles
+
+  let totalParticles = 5000;
+  for (let i = 0; i < totalParticles; i++) {
+    let p = generateRandomHeartPoint();
+    p.x = p.x * 16 * 10 + width / 2 ;
+    p.y = -p.y * 16 * 10 + height / 2;
+    particles.push(new Particle(p.x, p.y));
+  }
+}
+  </script>
+</body>
+</html>

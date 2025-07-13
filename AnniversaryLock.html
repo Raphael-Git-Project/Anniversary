@@ -1,0 +1,161 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Heart Lock</title>
+  <style>
+    body {
+      margin: 0;
+      padding: 0;
+      background: #000814;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      height: 100vh;
+      overflow: hidden;
+      font-family: 'Arial', sans-serif;
+      color: white;
+    }
+
+h1 {
+  margin-bottom: 70px;     /* Less margin below heading */
+  font-size: 2.5em;
+  text-align: center;
+  margin-top: -40px;
+       /* Moves heading upward */
+}
+
+.heart {
+  width: 220px;
+  height: 200px;
+  background: #00bfff;
+  position: center;
+  transform: rotate(-45deg);
+  margin: 30px 0;           /* Adds spacing above/below */
+}
+
+
+    .heart::before,
+    .heart::after {
+      content: '';
+      width: 220px;
+      height: 200px;
+      background: #00bfff;
+      border-radius: 50%;
+      position: absolute;
+    }
+
+    .heart::before {
+      top: -110px;
+      left: 0;
+    }
+
+    .heart::after {
+      left: 110px;
+      top: 0;
+    }
+
+    input[type="text"] {
+      padding: 15px;
+      font-size: 18px;
+      border: none;
+      border-radius: 10px;
+      margin-bottom: 20px;
+      margin-top: 50px;
+      text-align: center;
+      width: 200px;
+    }
+
+    button {
+      padding: 12px 30px;
+      font-size: 18px;
+      background-color: #0077cc;
+      color: white;
+      border: none;
+      border-radius: 8px;
+      cursor: pointer;
+      transition: background 0.3s ease;
+      margin-top: 5px;
+    }
+
+    button:hover {
+      background-color: #005fa3;
+    }
+
+    #heartParticles {
+      position: absolute;
+      top: 0;
+      left: 0;
+      pointer-events: none;
+      width: 100%;
+      height: 100%;
+      z-index: -1;
+    }
+
+    .particle {
+      position: absolute;
+      width: 20px;
+      height: 20px;
+      background-color: transparent;
+      animation: floatUp 2s ease-out forwards;
+      font-size: 20px;
+    }
+
+    @keyframes floatUp {
+      0% {
+        opacity: 1;
+        transform: translateY(0) scale(1);
+      }
+      100% {
+        opacity: 0;
+        transform: translateY(-150px) scale(1.5);
+      }
+    }
+  </style>
+</head>
+<body>
+  <h1>  Unlock My heart💙 </h1>
+  <div class="heart"></div>
+
+
+  <input type="text" id="codeInput" placeholder="DD/MM" />
+  <button onclick="unlockHeart()">Unlock</button>
+
+  <div id="heartParticles"></div>
+
+  <script>
+    const correctCode = "14/08"; // your anniversary code
+
+    function unlockHeart() {
+      const code = document.getElementById("codeInput").value;
+      if (code === correctCode) {
+        triggerParticles();
+        setTimeout(() => {
+          window.location.href = "letter.html";
+        }, 1500);
+      } else {
+        alert("Wrong code! Try again.");
+      }
+    }
+
+    function triggerParticles() {
+      const particleContainer = document.getElementById("heartParticles");
+
+      for (let i = 0; i < 40; i++) {
+        const particle = document.createElement("div");
+        particle.className = "particle";
+        particle.style.left = Math.random() * 100 + "vw";
+        particle.style.top = "60vh"; // start from around heart center
+        particle.innerHTML = "💙";
+        particleContainer.appendChild(particle);
+
+        setTimeout(() => {
+          particle.remove();
+        }, 2000);
+      }
+    }
+    
+  </script>
+</body>
+</html>
